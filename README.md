@@ -1,19 +1,10 @@
-# This is my project title
+NFT-DAO (RatherLabs Challenge)
 
-This sentence describes what my project is about summarized.
+This is an amazing DAO where you can vote in proposals to invest in specific NFTs listed in any Marketplace
 
 ## More Details
 
-I can explain how my project works here with different topics.
-
-## Upcoming
-
-- [x] I have done this activity
-- [ ] I plan to do this activity next
-
-## Contribution
-
-Feel free to contribute to this project to make it better!
+This project also includes a litte shop where you can mint an NFT to get access to the proposal itself, you can buy an NFT to create proposals
 
 ## License
 
@@ -21,5 +12,4 @@ This project has an MIT License.
 
 ## Made by love
 
-- [StarterTemplates](https://twitter.com/startertemp)
-- [LearnWeb3DAO](https://learnweb3.io)
+- [Juan Cruz Yanez](https://www.linkedin.com/in/juan-cruz-yanez/)
