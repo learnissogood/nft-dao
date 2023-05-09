@@ -28,3 +28,29 @@ a {
     background: black;
   }
 }
+
+.gradient-border {
+  background: linear-gradient(
+    168.82deg,
+    #6A1B9A 1.7%,
+    rgba(155, 111, 238, 0) 27.12%,
+    rgba(123, 127, 234, 0) 61.28%,
+    #1bb2de 99.52%
+  );
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+input:invalid {
+  color: rgb(194, 24, 24);
+}
+
+input:valid {
+  color: white;
+}

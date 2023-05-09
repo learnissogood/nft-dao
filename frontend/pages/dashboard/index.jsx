@@ -1,28 +1,22 @@
-import React, { useEffect } from "react";
-import { Header, Sidebar } from "../../components";
-import { useAccount } from "wagmi";
-import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import { DisplayProposals, Layout } from "../../components";
+import { useStateContext } from "../../context";
 
-const dashboard = () => {
-  const { isConnected, address } = useAccount();
-  const { pathname, query, push, reload } = useRouter();
-
-  useEffect(() => {
-    if (!isConnected) {
-      push("/");
-    }
-  }, [isConnected]);
+const Dashboard = () => {
+  
+  const { proposals, isLoading } = useStateContext();
 
   return (
-    <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-row">
-      <div className="sm:flex hidden mr-10 relative">
-        <Sidebar />
-      </div>
-      <div className="flex-1 max-sm:w-full max-w-[1280px] mx-auto sm:pr-5">
-        <Header />
-      </div>
-    </div>
+    <Layout>
+      <DisplayProposals
+        title="All Campaigns"
+        proposals={proposals}
+        isLoading={isLoading}
+      />
+    </Layout>
   );
 };
 
-export default dashboard;
+Dashboard.getLayout = (page) => <Layout>{page}</Layout>;
+
+export default Dashboard;

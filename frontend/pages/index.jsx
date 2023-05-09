@@ -13,7 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     if (isConnected) {
-      push("/dashboard");
+      push("/Dashboard");
     }
   }, [isConnected]);
 

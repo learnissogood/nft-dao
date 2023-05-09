@@ -9,36 +9,35 @@ import {
 
 export const navlinks = [
   {
-    name: "dashboard",
+    name: "Dashboard",
     imgUrl: dashboard,
-    link: "/",
+    link: "/Dashboard",
   },
   {
-    name: "campaign",
+    name: "CreateProposal",
     imgUrl: createCampaign,
-    link: "/create-campaign",
+    link: "/CreateProposal",
   },
   {
-    name: "payment",
+    name: "BuyNft",
     imgUrl: payment,
-    link: "/",
-    disabled: true,
+    link: "/BuyNft",
   },
   {
-    name: "withdraw",
+    name: "GetDaoToken",
     imgUrl: withdraw,
-    link: "/",
+    link: "/GetDaoToken",
+  },
+  {
+    name: "Profile",
+    imgUrl: profile,
+    link: "/Profile",
     disabled: true,
   },
   {
-    name: "profile",
-    imgUrl: profile,
-    link: "/profile",
-  },
-  {
-    name: "logout",
+    name: "Logout",
     imgUrl: logout,
-    link: "/",
+    link: "/Dashboard",
     disabled: true,
   },
 ];
