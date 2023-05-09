@@ -19,10 +19,10 @@ const VoteCard = ({
   useEffect(() => {
     const checkProposalStatus = () => {
       const newDate = new Date();
-      if (deadline > newDate) {
-        setProposalStatus(false);
-      } else {
+      if (deadline > newDate.toISOString()) {
         setProposalStatus(true);
+      } else {
+        setProposalStatus(false);
       }
     };
     checkProposalStatus();
