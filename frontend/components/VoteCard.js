@@ -20,9 +20,9 @@ const VoteCard = ({
     const checkProposalStatus = () => {
       const newDate = new Date();
       if (deadline > newDate) {
-        setProposalStatus(true);
-      } else {
         setProposalStatus(false);
+      } else {
+        setProposalStatus(true);
       }
     };
     checkProposalStatus();

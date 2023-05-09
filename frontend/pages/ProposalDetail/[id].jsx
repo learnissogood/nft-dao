@@ -54,7 +54,7 @@ const ProposalDetail = () => {
   const handleVote = async (vote) => {
     try {
       const nftDAOContractInterface = new ethers.Contract(
-        NFTDAO_CONTRACT_ADDRESS,
+        process.env.NEXT_PUBLIC_DAO_NFT_ADDRESS,
         DAONFT_ABI,
         signer
       );
