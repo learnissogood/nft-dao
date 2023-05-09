@@ -28,7 +28,7 @@ contract DaoNftVip is ERC721Enumerable, Ownable {
      */
     constructor(
         string memory baseURI
-    ) ERC721("Dao NFT", "DAO") {
+    ) ERC721("Dao NFT Vip", "DAOV") {
         _baseTokenURI = baseURI;
     }
 

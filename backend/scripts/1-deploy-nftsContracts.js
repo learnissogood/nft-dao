@@ -31,11 +31,11 @@ async function main() {
 
   // print the addresses of the deployed contracts
   console.log(
-    "Crypto DAO Contract Address:",
+    "Crypto DAO Member Contract Address:",
     deployedDaoCryptoNftMemberContract.address
   );
   console.log(
-    "Crypto DAO Contract Address:",
+    "Crypto DAO Vip Contract Address:",
     deployedDaoCryptoNftVipContract.address
   );
 }

@@ -28,7 +28,7 @@ contract DaoNftMember is ERC721Enumerable, Ownable {
      */
     constructor(
         string memory baseURI
-    ) ERC721("Dao NFT", "DAO") {
+    ) ERC721("Dao NFT Member", "DAOM") {
         _baseTokenURI = baseURI;
     }
 
