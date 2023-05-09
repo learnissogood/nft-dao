@@ -68,7 +68,9 @@ const Header = () => {
                 }`}
                 onClick={() => {
                   setToggleDrawer(false);
-                  push(link.link);
+                  if (!link.disabled) {
+                    push(link.link);
+                  }
                 }}
               >
                 <Image
@@ -80,7 +82,9 @@ const Header = () => {
                 />
                 <p
                   className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
-                    pathname === "/" + link.name ? "text-[#1dc071]" : "text-[#808191]"
+                    pathname === "/" + link.name
+                      ? "text-[#1dc071]"
+                      : "text-[#808191]"
                   }`}
                 >
                   {link.name}
