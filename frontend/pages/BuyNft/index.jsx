@@ -13,7 +13,7 @@ const BuyNft = () => {
         "Crypto DAO Member is a collection that allows you vote in proposals in the NFT DAO Community",
       nftPrice: "0.01",
       nftImage: nft1,
-      nftAddress: "0xE2d10dC33A319567FCe3f6537CC0BF9E38685d78",
+      nftAddress: process.env.NEXT_PUBLIC_MEMBER_NFT_ADDRESS,
     },
     {
       nftName: "Crypto DAO Vip",
@@ -21,7 +21,7 @@ const BuyNft = () => {
         "Crypto DAO Vip is a collection that allows you vote in proposals and create proposals in the NFT DAO Community",
       nftPrice: "0.05",
       nftImage: nft2,
-      nftAddress: "0x3B98cC2c2C22b33Ed11d5D9A20De2510b6667ef1",
+      nftAddress: process.env.NEXT_PUBLIC_VIP_NFT_ADDRESS,
     },
   ];
 
