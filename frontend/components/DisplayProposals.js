@@ -38,7 +38,7 @@ const DisplayProposals = ({ proposals, isLoading }) => {
         {!isLoading &&
           proposals.length > 0 &&
           proposals.map((proposal) => (
-            <VoteCard key={proposal.id} {...proposal} onClick={() => goToProposalDetails(proposal)} />
+            <VoteCard key={proposal?.id} {...proposal} onClick={() => goToProposalDetails(proposal)} />
           ))}
       </div>
     </div>

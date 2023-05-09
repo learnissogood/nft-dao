@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { DAONFT_ABI, NFTDAO_CONTRACT_ADDRESS } from "../../../constants1";
+import { DAONFT_ABI } from "../../../constants1";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const fetchProposals = async () => {
       try {
         const nftDAOContractInterface = new ethers.Contract(
-          NFTDAO_CONTRACT_ADDRESS,
+          process.env.NEXT_PUBLIC_DAO_NFT_ADDRESS,
           DAONFT_ABI,
           provider
         );
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     const fetchProposalById = async (id) => {
       try {
         const nftDAOContractInterface = new ethers.Contract(
-          NFTDAO_CONTRACT_ADDRESS,
+          process.env.NEXT_PUBLIC_DAO_NFT_ADDRESS,
           DAONFT_ABI,
           provider
         );
