@@ -4,7 +4,7 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract DaoCryptoNft is ERC721Enumerable, Ownable {
+contract DaoNftVip is ERC721Enumerable, Ownable {
     /**
      * @dev _baseTokenURI for computing {tokenURI}. If set, the resulting URI for each
      * token will be the concatenation of the `baseURI` and the `tokenId`.
@@ -12,10 +12,10 @@ contract DaoCryptoNft is ERC721Enumerable, Ownable {
     string _baseTokenURI;
 
     //  _price is the price of one Crypto Dev NFT
-    uint256 public _price = 0.01 ether;
+    uint256 public _price = 0.05 ether;
 
     // max number of CryptoDevs
-    uint256 public maxTokenIds = 20;
+    uint256 public maxTokenIds = 10;
 
     // total number of tokenIds minted
     uint256 public tokenIds;
@@ -36,8 +36,9 @@ contract DaoCryptoNft is ERC721Enumerable, Ownable {
      * @dev mint allows a user to mint 1 NFT per transaction after the presale has ended.
      */
     function mint() public payable {
-        require(tokenIds < maxTokenIds, "Exceed maximum Crypto Devs supply");
+        require(tokenIds < maxTokenIds, "Exceed maximum Crypto DAO Vip supply");
         require(msg.value >= _price, "Ether sent is not correct");
+        require(balanceOf(msg.sender) == 0, "You already claim this NFT");
         tokenIds += 1;
         _safeMint(msg.sender, tokenIds);
     }

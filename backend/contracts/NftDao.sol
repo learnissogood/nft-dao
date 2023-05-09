@@ -40,10 +40,22 @@ interface IDaoCryptoNFT {
     ) external view returns (uint256);
 }
 
+interface ICryptoDaoToken {
+    /**
+     * @dev Returns the amount of tokens owned by `account`.
+     */
+    function balanceOf(address account) external view returns (uint256);
+}
+
 contract NftDAO is Ownable {
-    // Create a struct named Proposal containing all relevant information
     struct Proposal {
-        // nftTokenId - the tokenID of the NFT to purchase from FakeNFTMarketplace if the proposal passes
+        // title - the title of the proposal
+        string title;
+        // description - the description of the proposal
+        string description;
+        // creator - the address of the creator of the proposal
+        address creator;
+        // nftTokenId - the tokenID of the NFT to purchase from Marketplace if the proposal passes
         uint256 nftTokenId;
         // deadline - the UNIX timestamp until which this proposal is active. Proposal can be executed after the deadline has been exceeded.
         uint256 deadline;
@@ -53,18 +65,25 @@ contract NftDAO is Ownable {
         uint256 noVotes;
         // executed - whether or not this proposal has been executed yet. Cannot be executed before the deadline has been exceeded.
         bool executed;
-        // voters - a mapping of CryptoDevsNFT tokenIDs to booleans indicating whether that NFT has already been used to cast a vote or not
-        mapping(uint256 => bool) voters;
+        // voters - a mapping of DAONFT tokenIDs to booleans indicating whether that NFT has already been used to cast a vote or not
+        mapping(uint256 => bool) memberVoters;
+        mapping(uint256 => bool) vipVoters;
     }
 
     // Create a mapping of ID to Proposal
     mapping(uint256 => Proposal) public proposals;
 
+    // Array of all proposals
+    Proposal[] public allProposals;
+
     // Number of proposals that have been created
     uint256 public numProposals;
 
+    // Contracts Interfaces initialized
     IMarketplace nftMarketplace;
-    IDaoCryptoNFT daoNFT;
+    IDaoCryptoNFT daoNFT1;
+    IDaoCryptoNFT daoNFT2;
+    ICryptoDaoToken cryptoToken;
 
     // Create an enum named Vote containing possible options for a vote
     enum Vote {
@@ -73,9 +92,14 @@ contract NftDAO is Ownable {
     }
 
     // Create a modifier which only allows a function to be
-    // called by someone who owns at least 1 daoNFT
+    // called by someone who is a member of the DAO
     modifier nftHolderOnly() {
-        require(daoNFT.balanceOf(msg.sender) > 0, "NOT_A_DAO_MEMBER");
+        require(
+            daoNFT1.balanceOf(msg.sender) > 0 ||
+                daoNFT2.balanceOf(msg.sender) > 0 ||
+                owner() == msg.sender,
+            "NOT_A_DAO_MEMBER"
+        );
         _;
     }
 
@@ -105,24 +129,36 @@ contract NftDAO is Ownable {
     }
 
     // Create a payable constructor which initializes the contract
-    // instances for FakeNFTMarketplace and CryptoDevsNFT
+    // instances for Marketplace and DAONFTs
     // The payable allows this constructor to accept an ETH deposit when it is being deployed
-    constructor(address _nftMarketplace, address _daoNFT) payable {
+    constructor(
+        address _nftMarketplace,
+        address _daoNFT1,
+        address _daoNFT2,
+        address _cryptoToken
+    ) payable {
         nftMarketplace = IMarketplace(_nftMarketplace);
-        daoNFT = IDaoCryptoNFT(_daoNFT);
+        daoNFT1 = IDaoCryptoNFT(_daoNFT1);
+        daoNFT2 = IDaoCryptoNFT(_daoNFT2);
+        cryptoToken = ICryptoDaoToken(_cryptoToken);
     }
 
     /// @dev createProposal allows a CryptoDevsNFT holder to create a new proposal in the DAO
     /// @param _nftTokenId - the tokenID of the NFT to be purchased from FakeNFTMarketplace if this proposal passes
     /// @return Returns the proposal index for the newly created proposal
     function createProposal(
-        uint256 _nftTokenId
+        string memory _title,
+        string memory _description,
+        uint256 _nftTokenId,
+        uint256 _duration
     ) external nftHolderOnly returns (uint256) {
         require(nftMarketplace.available(_nftTokenId), "NFT_NOT_FOR_SALE");
         Proposal storage proposal = proposals[numProposals];
         proposal.nftTokenId = _nftTokenId;
-        // Set the proposal's voting deadline to be (current time + 5 minutes)
-        proposal.deadline = block.timestamp + 5 minutes;
+        proposal.deadline = block.timestamp + _duration * 1 minutes;
+        proposal.creator = msg.sender;
+        proposal.title = _title;
+        proposal.description = _description;
 
         numProposals++;
 
@@ -136,38 +172,78 @@ contract NftDAO is Ownable {
         uint256 proposalIndex,
         Vote vote
     ) external nftHolderOnly activeProposalOnly(proposalIndex) {
+        require(
+            cryptoToken.balanceOf(msg.sender) > 0,
+            "You don't have voting power, please acquire CDT Tokens"
+        );
+
         Proposal storage proposal = proposals[proposalIndex];
 
-        uint256 voterNFTBalance = daoNFT.balanceOf(msg.sender);
-        uint256 numVotes = 0;
+        uint256 voterMemberNFTBalance = daoNFT1.balanceOf(msg.sender);
+        uint256 voterVipNFTBalance = daoNFT2.balanceOf(msg.sender);
+        uint256 voterDaoTokenBalance = cryptoToken.balanceOf(msg.sender);
+        uint256 sqrtBalance = sqrt(voterDaoTokenBalance / 10 ** 18);
+        uint256 votingPower = sqrtBalance * sqrtBalance;
 
-        // Calculate how many NFTs are owned by the voter
-        // that haven't already been used for voting on this proposal
-        for (uint256 i = 0; i < voterNFTBalance; i++) {
-            uint256 tokenId = daoNFT.tokenOfOwnerByIndex(msg.sender, i);
-            if (proposal.voters[tokenId] == false) {
-                numVotes++;
-                proposal.voters[tokenId] = true;
+        if (voterMemberNFTBalance > 0) {
+            uint256 memberTokenId = daoNFT1.tokenOfOwnerByIndex(msg.sender, 0);
+            require(
+                proposal.memberVoters[memberTokenId] == false,
+                "You already vote with this NFT"
+            );
+            if (proposal.memberVoters[memberTokenId] == false) {
+                // WIP FINSIH THIS IMPLEMENTATION
+                if (vote == Vote.YES) {
+                    proposal.yesVotes += votingPower;
+                } else {
+                    proposal.noVotes += votingPower;
+                }
+                proposal.memberVoters[memberTokenId] = true;
             }
         }
-        require(numVotes > 0, "ALREADY_VOTED");
-
-        if (vote == Vote.YES) {
-            proposal.yesVotes += numVotes;
-        } else {
-            proposal.noVotes += numVotes;
+        
+        if (voterVipNFTBalance > 0) {
+            uint256 vipTokenId = daoNFT2.tokenOfOwnerByIndex(msg.sender, 0);
+            require(
+                proposal.vipVoters[vipTokenId] == false,
+                "You already vote with this NFT"
+            );
+            if (proposal.vipVoters[vipTokenId] == false) {
+                // WIP FINSIH THIS IMPLEMENTATION
+                if (vote == Vote.YES) {
+                    proposal.yesVotes += votingPower;
+                } else {
+                    proposal.noVotes += votingPower;
+                }
+                proposal.vipVoters[vipTokenId] = true;
+            }
         }
     }
 
-    /// @dev executeProposal allows any CryptoDevsNFT holder to execute a proposal after it's deadline has been exceeded
+    // Helper function to calculate the square root of a number
+    function sqrt(uint256 x) private pure returns (uint256) {
+        uint256 z = (x + 1) / 2;
+        uint256 y = x;
+        while (z < y) {
+            y = z;
+            z = (x / z + z) / 2;
+        }
+        return y;
+    }
+
+    /// @dev executeProposal allows any DAONFT holder to execute a proposal after it's deadline has been exceeded
     /// @param proposalIndex - the index of the proposal to execute in the proposals array
     function executeProposal(
         uint256 proposalIndex
     ) external nftHolderOnly inactiveProposalOnly(proposalIndex) {
         Proposal storage proposal = proposals[proposalIndex];
+        require(
+            proposal.yesVotes > proposal.noVotes,
+            "You cannot execute this proposal. Not enough upvotes"
+        );
 
-        // If the proposal has more YAY votes than NAY votes
-        // purchase the NFT from the FakeNFTMarketplace
+        // If the proposal has more YES votes than NO votes
+        // purchase the NFT from the Marketplace
         if (proposal.yesVotes > proposal.noVotes) {
             uint256 nftPrice = nftMarketplace.getPrice();
             require(address(this).balance >= nftPrice, "NOT_ENOUGH_FUNDS");
