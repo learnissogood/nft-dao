@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { InputExchange, Balance } from "../components";
 import { useAccount, useSigner } from "wagmi";
-import { DAO_TOKEN_CONTRACT_ADDRESS, DAO_TOKEN_ABI } from "../constants1";
+import { DAO_TOKEN_ABI } from "../constants1";
 import { ethers } from "ethers";
 
 import { toast } from "react-toastify";
@@ -20,7 +20,7 @@ const Exchange = () => {
   const swap = async () => {
     try {
       const daoTokenInterface = new ethers.Contract(
-        DAO_TOKEN_CONTRACT_ADDRESS,
+        process.env.NEXT_PUBLIC_TOKEN_ADDRESS,
         DAO_TOKEN_ABI,
         signer
       );

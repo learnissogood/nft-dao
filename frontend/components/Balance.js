@@ -1,5 +1,5 @@
 import React from "react";
-import { useBalance, useAccount } from "wagmi";
+import { useBalance } from "wagmi";
 import { useIsMounted } from "../hooks/useIsMounted";
 
 const Balance = ({ token, address }) => {

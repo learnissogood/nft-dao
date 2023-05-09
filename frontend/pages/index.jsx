@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 
 export default function Home() {
-  const { isConnected, address } = useAccount();
-  const { pathname, query, push, reload } = useRouter();
+  const { isConnected } = useAccount();
+  const { push } = useRouter();
 
   useEffect(() => {
     if (isConnected) {

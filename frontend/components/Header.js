@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import styles from "../styles/Header.module.css";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { daoLogo, menu, search } from "../assets";

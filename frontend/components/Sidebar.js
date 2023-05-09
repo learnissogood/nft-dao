@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { useRouter, pathname } from "next/router";
+import { useRouter } from "next/router";
 import { sun, daoLogo } from "../assets";
 import { navlinks } from "../constants";
 

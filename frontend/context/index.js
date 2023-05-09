@@ -16,13 +16,13 @@ export const StateContextProvider = ({ children }) => {
   const provider = useProvider();
 
   const memberNftContractInstanceRead = new ethers.Contract(
-    "0xE2d10dC33A319567FCe3f6537CC0BF9E38685d78",
+    process.env.NEXT_PUBLIC_MEMBER_NFT_ADDRESS,
     CRYPTODAO_NFT_ABI,
     provider
   );
 
   const vipNftContractInstanceRead = new ethers.Contract(
-    "0x3B98cC2c2C22b33Ed11d5D9A20De2510b6667ef1",
+    process.env.NEXT_PUBLIC_VIP_NFT_ADDRESS,
     CRYPTODAO_NFT_ABI,
     provider
   );
@@ -54,7 +54,7 @@ export const StateContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchProposals = async () => {
       setIsLoading(true);
-      const data = await axios.get("http://localhost:3000/api/fetchProposals");
+      const data = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}api/fetchProposals`);
       console.log(data.data);
       setProposals(data.data);
       setIsLoading(false);

@@ -4,7 +4,7 @@ import { useStateContext } from "../../context";
 import { useAccount, useSigner } from "wagmi";
 
 import { ethers } from "ethers";
-import { DAONFT_ABI, NFTDAO_CONTRACT_ADDRESS } from "../../constants1";
+import { DAONFT_ABI } from "../../constants1";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 
@@ -32,7 +32,7 @@ const CreateProposal = () => {
   const submitProposal = async () => {
     try {
       const nftDAOContractInterface = new ethers.Contract(
-        NFTDAO_CONTRACT_ADDRESS,
+        process.env.NEXT_PUBLIC_DAO_NFT_ADDRESS,
         DAONFT_ABI,
         signer
       );
