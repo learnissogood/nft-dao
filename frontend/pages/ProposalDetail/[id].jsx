@@ -86,10 +86,14 @@ const ProposalDetail = () => {
   useEffect(() => {
     const checkProposalStatus = () => {
       const newDate = new Date();
-      if (proposal?.deadline > newDate.toISOString()) {
-        setProposalStatus("Active");
+      if (!proposal?.executed) {
+        if (!proposal?.executed && proposal?.deadline > newDate.toISOString()) {
+          setProposalStatus("Active");
+        } else {
+          setProposalStatus("Finished");
+        }
       } else {
-        setProposalStatus("Finished");
+        setProposalStatus("Executed");
       }
     };
     checkProposalStatus();
