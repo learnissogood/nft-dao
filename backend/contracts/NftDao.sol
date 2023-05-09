@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * Interface for the FakeNFTMarketplace
@@ -72,9 +72,6 @@ contract NftDAO is Ownable {
 
     // Create a mapping of ID to Proposal
     mapping(uint256 => Proposal) public proposals;
-
-    // Array of all proposals
-    Proposal[] public allProposals;
 
     // Number of proposals that have been created
     uint256 public numProposals;
