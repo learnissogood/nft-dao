@@ -1,5 +1,4 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import Login from "../components/Login";
 
 import React, { useEffect } from "react";
@@ -27,7 +26,7 @@ export default function Home() {
 
       <Login />
 
-      <footer className={styles.footer}>Made with &#10084; by Juanchi</footer>
+      <footer className="flex p-[2rem] border-t-[1px] justify-center items-center">Made with &#10084; by Juanchi</footer>
     </div>
   );
 }
