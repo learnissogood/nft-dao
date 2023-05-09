@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     if (isConnected) {
-      push("/Dashboard");
+      push("/Proposals");
     }
   }, [isConnected]);
 

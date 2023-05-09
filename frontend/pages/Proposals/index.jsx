@@ -2,7 +2,7 @@ import React from "react";
 import { DisplayProposals, Layout } from "../../components";
 import { useStateContext } from "../../context";
 
-const Dashboard = () => {
+const Proposals = () => {
   
   const { proposals, isLoading } = useStateContext();
 
@@ -17,6 +17,6 @@ const Dashboard = () => {
   );
 };
 
-Dashboard.getLayout = (page) => <Layout>{page}</Layout>;
+Proposals.getLayout = (page) => <Layout>{page}</Layout>;
 
-export default Dashboard;
+export default Proposals;
