@@ -74,7 +74,7 @@ const Exchange = () => {
             </h1>
             <h1 className="text-white font-poppins font-bold">CDT</h1>
           </div>
-          <Balance address={address} token={DAO_TOKEN_CONTRACT_ADDRESS} />
+          <Balance address={address} token={process.env.NEXT_PUBLIC_TOKEN_ADDRESS} />
         </div>
         <button
           className="border-none outline-none px-6 font-poppins font-bold text-lg rounded-2xl leading-[24px] transition-all min-h-[56px] text-white bg-[#1dc071]"
