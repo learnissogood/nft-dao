@@ -36,6 +36,7 @@ const CreateProposal = () => {
         DAONFT_ABI,
         signer
       );
+
       await nftDAOContractInterface.createProposal(
         form.title,
         form.description,

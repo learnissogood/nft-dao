@@ -10,8 +10,6 @@ const Proposals = () => {
     <Layout>
       <DisplayProposals
         title="All Campaigns"
-        proposals={proposals}
-        isLoading={isLoading}
       />
     </Layout>
   );

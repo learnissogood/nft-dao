@@ -27,6 +27,15 @@ export const StateContextProvider = ({ children }) => {
     provider
   );
 
+  const fetchProposals = async () => {
+    setIsLoading(true);
+    const data = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}api/fetchProposals`
+    );
+    setProposals(data.data);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     const checkUserNftsBalances = async () => {
       const memberNftBalance = await memberNftContractInstanceRead.balanceOf(
@@ -52,14 +61,6 @@ export const StateContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const fetchProposals = async () => {
-      setIsLoading(true);
-      const data = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}api/fetchProposals`);
-      console.log(data.data);
-      setProposals(data.data);
-      setIsLoading(false);
-    };
-
     fetchProposals();
   }, []);
 
@@ -72,6 +73,7 @@ export const StateContextProvider = ({ children }) => {
         setIsNftVipOwner,
         isLoading,
         proposals,
+        fetchProposals
       }}
     >
       {children}

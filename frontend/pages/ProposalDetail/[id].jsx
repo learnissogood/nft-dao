@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useStateContext } from "../../context";
 import { Layout, CountBox } from "../../components";
 import { profile, proposalDetails } from "../../assets";
 import { useSigner } from "wagmi";
@@ -18,6 +19,11 @@ const ProposalDetail = () => {
   const proposal = query.proposal ? JSON.parse(query.proposal) : null;
 
   const [proposalStatus, setProposalStatus] = useState("");
+  const { proposals } = useStateContext();
+
+  const filterProposal = proposals?.find(
+    (p) => p.proposalId == proposal?.proposalId
+  );
 
   const handleExecute = async () => {
     try {
@@ -26,7 +32,9 @@ const ProposalDetail = () => {
         DAONFT_ABI,
         signer
       );
+
       await nftDAOContractInterface.executeProposal(query.id);
+
       toast.info("⏳ Executing Proposal ⏳", {
         position: "top-center",
         autoClose: 8000,
@@ -86,8 +94,11 @@ const ProposalDetail = () => {
   useEffect(() => {
     const checkProposalStatus = () => {
       const newDate = new Date();
-      if (!proposal?.executed) {
-        if (!proposal?.executed && proposal?.deadline > newDate.toISOString()) {
+      if (!filterProposal?.executed) {
+        if (
+          !filterProposal?.executed &&
+          filterProposal?.deadline > newDate.toISOString()
+        ) {
           setProposalStatus("Active");
         } else {
           setProposalStatus("Finished");
@@ -97,7 +108,7 @@ const ProposalDetail = () => {
       }
     };
     checkProposalStatus();
-  }, [proposal?.deadline]);
+  }, [filterProposal?.deadline]);
 
   return (
     <>
@@ -113,8 +124,8 @@ const ProposalDetail = () => {
           />
           <div className="flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]">
             <CountBox title="State" value={proposalStatus} />
-            <CountBox title="Votes For" value={proposal?.yesVotes} />
-            <CountBox title="Votes Against" value={proposal?.noVotes} />
+            <CountBox title="Votes For" value={filterProposal?.yesVotes} />
+            <CountBox title="Votes Against" value={filterProposal?.noVotes} />
           </div>
         </div>
 
@@ -135,7 +146,7 @@ const ProposalDetail = () => {
                 </div>
                 <div>
                   <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">
-                    {proposal?.proposalCreator}
+                    {filterProposal?.proposalCreator}
                   </h4>
                   <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]">
                     4 Proposals
@@ -151,12 +162,12 @@ const ProposalDetail = () => {
 
               <div className="mt-[20px]">
                 <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify">
-                  {proposal?.proposalDescription}
+                  {filterProposal?.proposalDescription}
                 </p>
               </div>
             </div>
 
-            {!proposal?.executed && proposalStatus === "Finished" && (
+            {!filterProposal?.executed && proposalStatus === "Finished" && (
               <div className="flex-1">
                 <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">
                   Vote

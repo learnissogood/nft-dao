@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { VoteCard } from "../components";
 import Image from "next/image";
 import { loader } from "../assets";
 import { useRouter } from "next/router";
+import { useStateContext } from "../context";
 
-const DisplayProposals = ({ proposals, isLoading }) => {
+const DisplayProposals = () => {
 
   const { push } = useRouter();
+  const { proposals, isLoading, fetchProposals } = useStateContext();
 
   const goToProposalDetails = (proposal) => {
     push({pathname: `/ProposalDetail/${proposal.proposalId}`, query: {proposal: JSON.stringify(proposal)}});
   };
+
+  useEffect(() => {
+    fetchProposals();
+  }, []);
 
   return (
     <div>

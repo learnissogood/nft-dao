@@ -10,6 +10,6 @@ This project also includes a litte shop where you can mint an NFT to get access 
 
 This project has an MIT License.
 
-## Made by love
+## Made with love
 
 - [Juan Cruz Yanez](https://www.linkedin.com/in/juan-cruz-yanez/)
