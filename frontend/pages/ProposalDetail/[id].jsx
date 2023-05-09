@@ -156,7 +156,7 @@ const ProposalDetail = () => {
               </div>
             </div>
 
-            {proposalStatus === "Finished" && (
+            {!proposal?.executed && proposalStatus === "Finished" && (
               <div className="flex-1">
                 <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">
                   Vote
