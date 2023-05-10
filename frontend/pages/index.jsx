@@ -26,7 +26,7 @@ export default function Home() {
 
       <Login />
 
-      <footer className="flex p-[2rem] border-t-[1px] justify-center items-center">Made with &#10084; by Juanchi</footer>
+      <footer className="flex p-[2rem] justify-center items-center bg-[#1c1c24]">Made with &#10084; by Juanchi</footer>
     </div>
   );
 }
