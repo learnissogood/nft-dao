@@ -17,16 +17,20 @@ export default function Home() {
   }, [isConnected]);
 
   return (
-    <div>
+    <>
       <Head>
         <title>NFT DAO</title>
         <meta name="description" content="NFT DAO" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Login />
+      <div className="flex flex-col">
+        <Login />
 
-      <footer className="flex p-[2rem] justify-center items-center bg-[#1c1c24]">Made with &#10084; by Juanchi</footer>
-    </div>
+        <footer className="flex p-[2rem] justify-center items-center bg-[#1c1c24]">
+          Made with &#10084; by Juanchi
+        </footer>
+      </div>
+    </>
   );
 }

@@ -50,8 +50,8 @@ const CustomCard = ({
         progress: undefined,
       });
     } catch (error) {
-      console.error(error);
-      toast.error(`🦄 Upss!, ${error.reason}`, {
+      console.error(error.data);
+      toast.error(`🦄 Upss!, ${error?.data?.message || error?.reason}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
