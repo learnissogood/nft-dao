@@ -7,7 +7,7 @@ import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
  * Interface for the FakeNFTMarketplace
  */
 interface IMarketplace {
-    /// @dev getPrice() returns the price of an NFT from the FakeNFTMarketplace
+    /// @dev getPrice() returns the price of an NFT from the Marketplace
     /// @return Returns the price in Wei for an NFT
     function getPrice() external view returns (uint256);
 
@@ -15,14 +15,13 @@ interface IMarketplace {
     /// @return Returns a boolean value - true if available, false if not
     function available(uint256 _tokenId) external view returns (bool);
 
-    /// @dev purchase() purchases an NFT from the FakeNFTMarketplace
+    /// @dev purchase() purchases an NFT from the Marketplace
     /// @param _tokenId - the fake NFT tokenID to purchase
     function purchase(uint256 _tokenId) external payable;
 }
 
 /**
- * Minimal interface for CryptoDevsNFT containing only two functions
- * that we are interested in
+ * Minimal interface for NFT721
  */
 interface IDaoCryptoNFT {
     /// @dev balanceOf returns the number of NFTs owned by the given address
@@ -59,9 +58,9 @@ contract NftDAO is Ownable {
         uint256 nftTokenId;
         // deadline - the UNIX timestamp until which this proposal is active. Proposal can be executed after the deadline has been exceeded.
         uint256 deadline;
-        // yayVotes - number of yay votes for this proposal
+        // yesVotes - number of yes votes for this proposal
         uint256 yesVotes;
-        // nayVotes - number of nay votes for this proposal
+        // noVotes - number of no votes for this proposal
         uint256 noVotes;
         // executed - whether or not this proposal has been executed yet. Cannot be executed before the deadline has been exceeded.
         bool executed;
@@ -140,8 +139,8 @@ contract NftDAO is Ownable {
         cryptoToken = ICryptoDaoToken(_cryptoToken);
     }
 
-    /// @dev createProposal allows a CryptoDevsNFT holder to create a new proposal in the DAO
-    /// @param _nftTokenId - the tokenID of the NFT to be purchased from FakeNFTMarketplace if this proposal passes
+    /// @dev createProposal allows a Dao NFT Vip holder to create a new proposal in the DAO
+    /// @param _nftTokenId - the tokenID of the NFT to be purchased from Marketplace if this proposal passes
     /// @return Returns the proposal index for the newly created proposal
     function createProposal(
         string memory _title,
@@ -162,7 +161,7 @@ contract NftDAO is Ownable {
         return numProposals - 1;
     }
 
-    /// @dev voteOnProposal allows a daoNFT holder to cast their vote on an active proposal
+    /// @dev voteOnProposal allows a Dao NFT Member and Dao NFT Vip holder to cast their vote on an active proposal
     /// @param proposalIndex - the index of the proposal to vote on in the proposals array
     /// @param vote - the type of vote they want to cast
     function voteOnProposal(
@@ -189,7 +188,6 @@ contract NftDAO is Ownable {
                 "You already vote with this NFT"
             );
             if (proposal.memberVoters[memberTokenId] == false) {
-                // WIP FINSIH THIS IMPLEMENTATION
                 if (vote == Vote.YES) {
                     proposal.yesVotes += votingPower;
                 } else {
@@ -206,7 +204,6 @@ contract NftDAO is Ownable {
                 "You already vote with this NFT"
             );
             if (proposal.vipVoters[vipTokenId] == false) {
-                // WIP FINSIH THIS IMPLEMENTATION
                 if (vote == Vote.YES) {
                     proposal.yesVotes += votingPower;
                 } else {

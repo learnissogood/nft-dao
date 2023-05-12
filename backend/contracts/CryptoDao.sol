@@ -5,8 +5,7 @@ import "../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * Minimal interface for CryptoDevsNFT containing only two functions
- * that we are interested in
+ * Minimal interface for NFT721
  */
 interface IDaoNFT {
     /// @dev balanceOf returns the number of NFTs owned by the given address
@@ -16,9 +15,9 @@ interface IDaoNFT {
 }
 
 contract CryptoDaoToken is ERC20, Ownable {
-    // Price of one Crypto Dev token
+    // Price of one Crypto Dao token
     uint256 public constant tokenPrice = 0.1 ether;
-    // the max total supply is 10000 for Crypto Dev Tokens
+    // the max total supply is 1000 for Crypto Dao Tokens
     uint256 public constant maxTotalSupply = 1000 * 10 ** 18;
     // DAONFTMember contract instance
     IDaoNFT DAONFTMember;
@@ -34,7 +33,7 @@ contract CryptoDaoToken is ERC20, Ownable {
     }
 
     /**
-     * @dev Mints `amount` number of CryptoDevTokens
+     * @dev Mints `amount` number of CryptoDaoTokens
      * Requirements:
      * - `msg.value` should be equal or greater than the tokenPrice * amount
      */
@@ -53,7 +52,7 @@ contract CryptoDaoToken is ERC20, Ownable {
         // the value of ether that should be equal or greater than tokenPrice * amount;
         uint256 _requiredAmount = tokenPrice * amount;
         require(msg.value >= _requiredAmount, "Ether sent is incorrect");
-        // total tokens + amount <= 10000, otherwise revert the transaction
+        // total tokens + amount <= 1000, otherwise revert the transaction
         uint256 amountWithDecimals = amount * 10 ** 18;
         require(
             (totalSupply() + amountWithDecimals) <= maxTotalSupply,

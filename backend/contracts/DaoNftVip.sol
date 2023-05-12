@@ -11,10 +11,10 @@ contract DaoNftVip is ERC721Enumerable, Ownable {
      */
     string public _baseTokenURI;
 
-    //  _price is the price of one Crypto Dev NFT
+    //  _price is the price of one DAONFT Vip
     uint256 public _price = 0.05 ether;
 
-    // max number of CryptoDevs
+    // max number of DAONFT Vip
     uint256 public maxTokenIds = 10;
 
     // total number of tokenIds minted
@@ -22,9 +22,8 @@ contract DaoNftVip is ERC721Enumerable, Ownable {
 
     /**
      * @dev ERC721 constructor takes in a `name` and a `symbol` to the token collection.
-     * name in our case is `Crypto Devs` and symbol is `CD`.
-     * Constructor for Crypto Devs takes in the baseURI to set _baseTokenURI for the collection.
-     * It also initializes an instance of whitelist interface.
+     * name in our case is `Dao NFT Vip` and symbol is `DAOV`.
+     * Constructor for DAONFT Vip takes in the baseURI to set _baseTokenURI for the collection.
      */
     constructor(
         string memory baseURI
@@ -33,7 +32,7 @@ contract DaoNftVip is ERC721Enumerable, Ownable {
     }
 
     /**
-     * @dev mint allows a user to mint 1 NFT per transaction after the presale has ended.
+     * @dev mint allows a user to mint 1 NFT per wallet.
      */
     function mint() public payable {
         require(tokenIds < maxTokenIds, "Exceed maximum Crypto DAO Vip supply");
