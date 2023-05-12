@@ -36,7 +36,7 @@ const DisplayProposals = () => {
 
       {!isLoading && proposals.length === 0 && (
         <p className="font-epilogue font-semibold text-[14px] leading-[30px] text-[#818183] flex items-center justify-center">
-          You have not created any campigns yet
+          You have not created any proposal yet
         </p>
       )}
 

@@ -72,6 +72,7 @@ export const StateContextProvider = ({ children }) => {
         isNftVipOwner,
         setIsNftVipOwner,
         isLoading,
+        setIsLoading,
         proposals,
         fetchProposals
       }}
