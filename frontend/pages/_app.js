@@ -21,6 +21,7 @@ const { chains, provider } = configureChains(
 // Application Configs
 const { connectors } = getDefaultWallets({
   appName: "NFT DAO APP",
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
   chains,
   provider,
 });
