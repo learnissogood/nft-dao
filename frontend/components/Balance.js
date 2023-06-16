@@ -5,23 +5,20 @@ import { useIsMounted } from "../hooks/useIsMounted";
 const Balance = ({ token, address }) => {
   const mounted = useIsMounted();
 
-  let balance;
+  const maticBalance = useBalance({ address: address });
+  const tokenBalance = useBalance({ address: address, token: token });
 
-  if (token) {
-    balance = useBalance({ address: address, token: token });
-  } else {
-    balance = useBalance({ address: address });
-  }
+  const displayBalance = () => {
+    if (tokenBalance && !tokenBalance?.isLoading) {
+      return `Balance ${
+        token ? tokenBalance?.data?.formatted : maticBalance?.data?.formatted
+      } ${token ? "CDT" : "MATIC"}`;
+    }
+  };
 
   return (
     <div className="w-full text-left mt-2 ml-2">
-      <p>
-        {mounted
-          ? token && balance && !balance?.isLoading
-            ? `Balance ${balance?.data?.formatted} CDT`
-            : `Balance ${balance?.data?.formatted} MATIC`
-          : null}
-      </p>
+      <p>{mounted && displayBalance()}</p>
     </div>
   );
 };
