@@ -18,7 +18,7 @@ contract CryptoDaoToken is ERC20, Ownable {
     // Price of one Crypto Dao token
     uint256 public constant tokenPrice = 0.1 ether;
     // the max total supply is 1000 for Crypto Dao Tokens
-    uint256 public constant maxTotalSupply = 1000 * 10 ** 18;
+    uint256 public constant maxTotalSupply = 10000 * 10 ** 18;
     // DAONFTMember contract instance
     IDaoNFT DAONFTMember;
     // DAONFTVip contract instance

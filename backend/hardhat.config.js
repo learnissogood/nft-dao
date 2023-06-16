@@ -3,7 +3,15 @@ require("dotenv").config();
 
 //* Default Template for Reference
 module.exports = {
-  solidity: "0.8.9",
+  solidity: {
+    version: "0.8.9",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
   // defaultNetwork: "mumbai",
   networks: {
     mumbai: {
